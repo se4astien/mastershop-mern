@@ -13,7 +13,6 @@ const App = () => {
       <Header />
       <main className='py-3'>
         <Container>
-          <h1>welcome to IT Shop</h1>
           <HomeScreen />
         </Container>
       </main>
