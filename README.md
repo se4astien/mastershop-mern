@@ -20,3 +20,8 @@ Build a completely customized eCommerce / shopping cart application from scratch
 <li>Custom database seeder script</li>
 </ul>
 
+## Command
+
+npm run dev => start front and back end
+npm run client => start front end
+npm run server => start back end
