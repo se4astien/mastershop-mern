@@ -25,3 +25,12 @@ Build a completely customized eCommerce / shopping cart application from scratch
 npm run dev => start front and back end
 npm run client => start front end
 npm run server => start back end
+
+## Install packages
+
+npm i axios
+npm i colors
+npm i -D nodemon concurrently
+npm i dotenv
+npm i bcryptjs
+...
