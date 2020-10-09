@@ -5,7 +5,7 @@ import Rating from '../components/Rating'
 import axios from 'axios'
 // import products from '../products'
 
-const ProductScreen = (props) => {
+const ProductScreen = ({ match }) => {
   // /product/:id => params.id represent the :id that we passed into the url
   // const product = products.find((item) => item._id === props.match.params.id)
 
@@ -13,11 +13,11 @@ const ProductScreen = (props) => {
 
   useEffect(() => {
     const fetchProduct = async (id) => {
-      const { data } = await axios.get(`/api/product/${props.match.params.id}`)
+      const { data } = await axios.get(`/api/product/${match.params.id}`)
       setProduct(data)
     }
     fetchProduct()
-  }, [])
+  }, [match])
 
   return (
     <>
