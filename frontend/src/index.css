@@ -9,3 +9,11 @@ h3 {
 .rating span {
   margin: 0.1rem;
 }
+
+select {
+  border: none;
+  width: 4rem;
+  outline: none;
+  padding: 5px;
+  background: #f6f6f6;
+}
