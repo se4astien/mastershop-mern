@@ -33,4 +33,5 @@ npm i colors
 npm i -D nodemon concurrently
 npm i dotenv
 npm i bcryptjs
+npm i jsonwebtoken
 ...
