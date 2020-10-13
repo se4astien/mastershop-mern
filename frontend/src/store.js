@@ -5,13 +5,24 @@ import {
   productListReducer,
   productDetailsReducer,
 } from './reducers/productReducers'
+import { cartReducer } from './reducers/cartReducers'
 
+// States
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
+  cart: cartReducer,
 })
 
-const initialState = {}
+// Keep informations from local storage
+const cartItemsFromStorage = localStorage.getItem('cartItems')
+  ? JSON.parse(localStorage.getItem('cartItems'))
+  : []
+
+// Initial State
+const initialState = {
+  cart: { cartItems: cartItemsFromStorage },
+}
 
 const middleware = [thunk]
 
