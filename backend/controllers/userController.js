@@ -6,12 +6,13 @@ import generateToken from '../utils/generateToken.js'
 // @route   POST /api/users/login
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
+  // Get email and password
   const { email, password } = req.body
 
   // Find user by email
   const user = await User.findOne({ email: email })
 
-  // check if user exist
+  // Check if user exist and if password match
   if (user && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
@@ -21,8 +22,46 @@ const authUser = asyncHandler(async (req, res) => {
       token: generateToken(user._id),
     })
   } else {
-    res.status(410)
-    throw new Error('Invalid email or password')
+    res.status(410) // bad request
+    throw new Error('Invalid email or password') // wrong message
+  }
+})
+
+// @desc    Register a new user
+// @route   POST /api/users
+// @access  Public
+const registerUser = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body
+
+  // Find user by email
+  const userExists = await User.findOne({ email: email })
+
+  // check if user already exist
+  if (userExists) {
+    res.status(400) // bad request
+    throw new Error('User already exist') // wrong message
+  }
+
+  // create a new user with name, email and password
+  const user = await User.create({
+    name,
+    email,
+    password,
+  })
+
+  // if new user, create it
+  if (user) {
+    // 201 => creation
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateToken(user._id),
+    })
+  } else {
+    res.status(400) // bad request
+    throw new Error('Invalid user data') // wrong message
   }
 })
 
@@ -45,4 +84,4 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 })
 
-export { authUser, getUserProfile }
+export { authUser, registerUser, getUserProfile }
