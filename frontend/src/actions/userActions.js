@@ -5,6 +5,9 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGOUT,
+  USER_REGISTER_REQUEST,
+  USER_REGISTER_SUCCESS,
+  USER_REGISTER_FAIL,
 } from '../constants/userConstants'
 
 // Login
@@ -49,4 +52,49 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   localStorage.removeItem('userInfo')
   dispatch({ type: USER_LOGOUT })
+}
+
+// Register
+export const register = (name, email, password) => async (dispatch) => {
+  try {
+    // try to login
+    dispatch({ type: USER_REGISTER_REQUEST })
+    // dispatch the login success => when we sending the data, we want to sending by headers and content-type
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    const { data } = await axios.post(
+      '/api/users',
+      {
+        name,
+        email,
+        password,
+      },
+      config
+    )
+
+    // Register with success
+    dispatch({
+      type: USER_REGISTER_SUCCESS,
+      payload: data, // data => user object
+    })
+
+    // Login after register
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: data, // data => user object
+    })
+
+    localStorage.setItem('userInfo', JSON.stringify(data))
+  } catch (error) {
+    dispatch({
+      type: USER_REGISTER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.response,
+    })
+  }
 }
